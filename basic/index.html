@@ -6,20 +6,60 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Under Construction</title>
-  <style>
-    body {
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-      background: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <p>To study from the beginning</p>
+  <div id="root"></div>
 </body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  const root = document.getElementById('root');
+
+  function Time() {
+    const [userValue, setValue] = React.useState(0);
+    const [switched, setSwitch] = React.useState(false);
+
+    const convertValue = (e) => setValue(e.target.value);
+    const resetInput = () => setValue(0);
+    const switchInput = () => setSwitch(current => !current);
+
+    return (
+      <div className="inputWrap">
+        <div className="inputEach">
+          <label htmlFor="minutes">Minutes</label>
+          <input
+            type="number"
+            onChange={convertValue}
+            value={switched ? userValue * 60 : userValue }
+            disabled={switched ? true : false}
+          />
+        </div>
+        <div className="inputEach">
+          <label htmlFor="hous">Hours</label>
+          <input
+            type="number"
+            onChange={convertValue}
+            value={switched ? userValue : Math.round(userValue / 60 * 10) / 10 }
+            disabled={switched ? false : true}
+          />
+        </div>
+        <button className="inputControl" onClick={resetInput}>Reset</button>
+        <button className="inputControl" onClick={switchInput}>Switch</button>
+      </div>
+    );
+  }
+
+  function App() {
+    return (
+      <div className="container">
+        <h3>Unit Converter</h3>
+        <Time />
+      </div>
+    );
+  }
+
+  ReactDOM.render(<App />, root);
+</script>
 </html>
