@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Under Construction</title>
+  <title>Basic Examples</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -51,11 +51,52 @@
     );
   }
 
+  function Distance() {
+    const [userValue, setValue] = React.useState(0);
+    const [switched, setSwitch] = React.useState(false);
+
+    const convertValue = (e) => setValue(e.target.value);
+    const resetInput = () => setValue(0);
+    const switchInput = () => setSwitch(current => !current);
+
+    return (
+      <div className="inputWrap">
+        <div className="inputEach">
+          <label htmlFor="kilometers">Kilometers</label>
+          <input
+            type="number"
+            onChange={convertValue}
+            value={switched ? Math.round(userValue / 1.6 * 10) / 10 : userValue}
+            disabled={switched ? true : false}
+          />
+        </div>
+        <div className="inputEach">
+          <label htmlFor="miles">Miles</label>
+          <input
+            type="number"
+            onChange={convertValue}
+            value={switched ? userValue : Math.round(userValue * 1.6 * 10) / 10}
+            disabled={switched ? false : true}
+          />
+        </div>
+        <button className="inputControl" onClick={resetInput}>Reset</button>
+        <button className="inputControl" onClick={switchInput}>Switch</button>
+      </div>
+    );
+  }
+
   function App() {
+    const [unitType, setUnitType] = React.useState(0);
+    const changeUnit = (e) => setUnitType(e.target.value);
+
     return (
       <div className="container">
         <h3>Unit Converter</h3>
-        <Time />
+        <select value={unitType} onChange={changeUnit}>
+          <option value="0">Time</option>
+          <option value="1">Distance</option>
+        </select>
+        {unitType === 0 ? <Time /> : <Distance />}
       </div>
     );
   }
