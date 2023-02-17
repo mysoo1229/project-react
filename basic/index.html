@@ -45,8 +45,8 @@
             disabled={switched ? false : true}
           />
         </div>
-        <button className="inputControl" onClick={resetInput}>Reset</button>
-        <button className="inputControl" onClick={switchInput}>Switch</button>
+        <button className="inputControl" onClick={resetInput}>다시 입력</button>
+        <button className="inputControl" onClick={switchInput}>바꾸기</button>
       </div>
     );
   }
@@ -62,7 +62,7 @@
     return (
       <div className="inputWrap">
         <div className="inputEach">
-          <label htmlFor="kilometers">Kilometers</label>
+          <label htmlFor="kilometers">Km</label>
           <input
             type="number"
             onChange={convertValue}
@@ -79,24 +79,26 @@
             disabled={switched ? false : true}
           />
         </div>
-        <button className="inputControl" onClick={resetInput}>Reset</button>
-        <button className="inputControl" onClick={switchInput}>Switch</button>
+        <button className="inputControl" onClick={resetInput}>다시 입력</button>
+        <button className="inputControl" onClick={switchInput}>바꾸기</button>
       </div>
     );
   }
 
   function App() {
-    const [unitType, setUnitType] = React.useState(0);
+    const [unitType, setUnitType] = React.useState("0");
     const changeUnit = (e) => setUnitType(e.target.value);
 
     return (
       <div className="container">
-        <h3>Unit Converter</h3>
-        <select value={unitType} onChange={changeUnit}>
-          <option value="0">Time</option>
-          <option value="1">Distance</option>
-        </select>
-        {unitType === 0 ? <Time /> : <Distance />}
+        <section className="unitConverter">
+          <h3>단위 변환기</h3>
+          <select value={unitType} onChange={changeUnit}>
+            <option value="0">시간</option>
+            <option value="1">거리</option>
+          </select>
+          {unitType === "0" ? <Time /> : <Distance />}
+        </section>
       </div>
     );
   }
