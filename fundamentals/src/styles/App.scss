@@ -11,6 +11,7 @@ $myBlue: #4692ff;
   border-radius: 8px;
   text-transform: uppercase;
   font-size: 15px;
+  line-height: 22px;
   color: white;
   cursor: pointer;
 }
@@ -35,11 +36,75 @@ section {
   background: #fff;
   border-radius: 16px;
 
+  + section {
+    margin-top: 50px;
+  }
+
   h2 {
     margin-bottom: 20px;
     font-size: 24px;
   }
 }
+
+.sectionUnit {
+  select {
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  .inputWrap {
+    display: flex;
+
+    .equal {
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .inputEach {
+    width: 30%;
+    margin-right: 10px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 12px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 22px;
+
+      &[disabled] {
+        background: #eee;
+      }
+    }
+  }
+
+  .buttonControl {
+    @include buttonCommmon();
+    width: 100px;
+    margin-top: auto;
+    font-weight: bold;
+
+    + .buttonControl {
+      margin-left: 10px;
+      background: #fff;
+      color: $myBlue;
+    }
+  }
+}
+
 
 .sectionTodo {
   form {
@@ -60,7 +125,6 @@ section {
     @include buttonCommmon();
     width: 100px;
     font-weight: bold;
-    line-height: 30px;
   }
 
   ul {
