@@ -49,6 +49,28 @@ section {
   }
 }
 
+.project-content {
+  display: flex;
+  margin-top: 30px;
+  gap: 30px;
+}
+
+.project-each {
+  flex: 1;
+  border: 1px solid #fff;
+  border-radius: 16px;
+
+  a {
+    display: block;
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 17px;
+    color: #fff;
+  }
+}
+
 .sectionUnit {
   select {
     padding: 8px;

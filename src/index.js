@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/project-react",
+    element: <Home />,
+  },
+  {
     path: "/movie",
     element: <Movie />,
   },
