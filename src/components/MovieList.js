@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function MovieList({id, image, title, year, summary, rating, genres}) {
   return (
     <li>
-      <Link>
+      <Link to={`/project-react/movie/${id}`}>
         <div className="image">
           <img
             src={image}
