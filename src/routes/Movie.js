@@ -24,7 +24,7 @@ function Movie() {
         <div className="movie-header">
           <h1>CETFLIX</h1>
         </div>
-        <div className="movie-wrapper">
+        <div className="movie-contents">
           {
             loading
             ? <div className="movie-loading">loading...</div>
