@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import Router from "./Router";
+
 
 function App() {
   return (
     <div className="App">
-      테스트
+      <Router />
     </div>
   );
 }
