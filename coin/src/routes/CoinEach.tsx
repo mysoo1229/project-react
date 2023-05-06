@@ -1,10 +1,13 @@
 import Header from "../components/Header";
-import { useLocation, useParams } from "react-router";
+import { Route, Switch, useLocation, useParams, useRouteMatch } from "react-router";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinPrice, } from "../api";
 import LoadingSvg from "../resources/loading";
 import styled from "styled-components";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import LineChart from "./tabs/LineChart";
+import CandleChart from "./tabs/CandleChart";
+import Price from "./tabs/Price";
 
 const Loading = styled.div`
   width: 50px;
@@ -55,7 +58,7 @@ const SummaryImage = styled.div`
 
 const Description = styled.div`
   margin: 20px 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.3;
 `;
 
@@ -85,17 +88,27 @@ const SupplyEach = styled.div`
 const Tab = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 60px;
-  padding: 12px 30px;
+  margin: 60px 0 20px;
+  padding: 2px;
   background: ${(props) => props.theme.fillColor};
   border-radius: 12px;
   box-shadow: 0 0 10px 3px ${(props) => props.theme.shadowColor};
+  overflow: hidden;
   text-align: center;
 `;
 
-const TabEach = styled.div`
+const TabEach = styled.div<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 14px;
+
+  a {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: ${(props) => props.isActive ? props.theme.accentColor : "none"};
+    box-shadow: 0 0 10px 3px ${(props) => props.isActive ? props.theme.shadowColor : "rgba(0, 0, 0, 0)"};
+    color: ${(props) => props.isActive ? props.theme.fillColor : props.theme.textColor};
+  }
 `;
 
 interface ICoinEach {
@@ -128,6 +141,9 @@ function CoinEach() {
   const { isLoading: infoLoading, data: infoData } = useQuery<ICoinInfo>("coinInfo",  () => fetchCoinInfo(coinId));
   const { isLoading: priceLoading, data: priceData } = useQuery<ICoinPrice>("coinPrice", () => fetchCoinPrice(coinId));
   const isLoading = infoLoading || priceLoading;
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const lineChartMatch = useRouteMatch("/:coinId/linechart");
+  const candleChartMatch = useRouteMatch("/:coinId/candlechart");
 
   return (
     <>
@@ -157,10 +173,28 @@ function CoinEach() {
             </SupplyEach>
           </Supply>
           <Tab>
-            <TabEach>Line Chart</TabEach>
-            <TabEach>Candlestick Chart</TabEach>
-            <TabEach>Price</TabEach>
+            <TabEach isActive={lineChartMatch !== null}>
+              <Link to={`/${coinId}/linechart`}>Line Chart</Link>
+            </TabEach>
+            <TabEach isActive={candleChartMatch !== null}>
+              <Link to={`/${coinId}/candlechart`}>Candle Chart</Link>
+            </TabEach>
+            <TabEach isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </TabEach>
           </Tab>
+
+          <Switch>
+            <Route path="/:coinId/linechart">
+              <LineChart coinId={coinId} />
+            </Route>
+            <Route path="/:coinId/candlechart">
+              <CandleChart coinId={coinId} />
+            </Route>
+            <Route path="/:coinId/price">
+              <Price coinId={coinId} />
+            </Route>
+          </Switch>
         </>
       )}
     </>
