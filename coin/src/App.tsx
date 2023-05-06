@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.bgColor};
   }
   body * {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Rubik', sans-serif;
     color: ${(props) => props.theme.textColor};
   }
   menu, ol, ul {
