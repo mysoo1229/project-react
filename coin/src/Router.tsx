@@ -6,7 +6,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/each">
+        <Route path="/:coinId">
           <CoinEach />
         </Route>
         <Route path="/">

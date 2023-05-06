@@ -1,7 +1,22 @@
+import Header from "../components/Header";
+import { useLocation, useParams } from "react-router";
+
+interface ICoinEachProps {
+  coinId: string;
+}
+
+interface IRouteState {
+  name: string;
+}
 
 function CoinEach() {
+  const { coinId } = useParams<ICoinEachProps>();
+  const { state } = useLocation<IRouteState>();
+
   return (
-    <div>개별 페이지</div>
+    <>
+      <Header title={state?.name || "loading..."} />
+    </>
   )
 }
 

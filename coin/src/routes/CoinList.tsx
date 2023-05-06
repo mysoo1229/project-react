@@ -3,6 +3,7 @@ import { fetchCoins } from "../api";
 import Header from "../components/Header";
 import LoadingSvg from "../resources/loading";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Loading = styled.div`
   width: 50px;
@@ -64,10 +65,16 @@ function CoinList() {
         <List>
           {data?.slice(0, 18).map(coin => (
             <Item key={coin.id}>
-              <ItemLogo>
-                <img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
-              </ItemLogo>
-              <ItemName>{coin.name}</ItemName>
+              <Link
+                to={{
+                  pathname: `/${coin.id}`,
+                  state: { name: coin.name }
+                }}>
+                <ItemLogo>
+                  <img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                </ItemLogo>
+                <ItemName>{coin.name}</ItemName>
+              </Link>
             </Item>
           ))}
         </List>
