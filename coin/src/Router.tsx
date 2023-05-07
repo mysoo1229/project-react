@@ -4,7 +4,7 @@ import CoinEach from "./routes/CoinEach";
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/project-react/coin">
       <Switch>
         <Route path="/:coinId">
           <CoinEach />

@@ -73,7 +73,7 @@ function Price({ coinId }: PriceProps) {
       {
         isLoading ? (
           <Message>Loading price...</Message>
-        ) : Array.isArray(data) ? (
+        ) : (
           <PriceList>
             <PriceItem>
               <PriceType>Since<br />1 hour ago</PriceType>
@@ -100,8 +100,6 @@ function Price({ coinId }: PriceProps) {
               </PriceValue>
             </PriceItem>
           </PriceList>
-        ) : (
-          <Message>Sorry, the information is currently unavailable.</Message>
         )
       }
     </>
