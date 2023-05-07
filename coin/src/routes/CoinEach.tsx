@@ -107,7 +107,7 @@ const TabEach = styled.div<{ isActive: boolean }>`
     border-radius: 12px;
     background: ${(props) => props.isActive ? props.theme.accentColor : "none"};
     box-shadow: 0 0 10px 3px ${(props) => props.isActive ? props.theme.shadowColor : "rgba(0, 0, 0, 0)"};
-    color: ${(props) => props.isActive ? props.theme.fillColor : props.theme.textColor};
+    color: ${(props) => props.isActive ? "#fff" : props.theme.textColor};
   }
 `;
 
@@ -147,7 +147,10 @@ function CoinEach() {
 
   return (
     <>
-      <Header title={state?.name ? state.name : isLoading ? "loading..." : infoData?.name ? infoData.name : ""} />
+      <Header
+        title={state?.name ? state.name : isLoading ? "loading..." : infoData?.name ? infoData.name : ""}
+        hasHomeLink={true}
+      />
       { isLoading ? (
         <Loading>
           <LoadingSvg />

@@ -63,7 +63,7 @@ function CoinList() {
         </Loading>
       ) : (
         <List>
-          {data?.slice(0, 18).map(coin => (
+          {data?.slice(0, 15).map(coin => (
             <Item key={coin.id}>
               <Link
                 to={{

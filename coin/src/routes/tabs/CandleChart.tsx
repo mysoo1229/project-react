@@ -1,6 +1,8 @@
 import ApexChart from "react-apexcharts";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
 import { fetchCoinHistory } from "../../api";
+import { isLightAtom } from "../../atoms";
 
 interface ICoinHistory {
   time_close: number;
@@ -16,6 +18,7 @@ interface ChartProps {
 
 function CandleChart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<ICoinHistory[]>("coinHistory", () => fetchCoinHistory(coinId),);
+  const isLight = useRecoilValue(isLightAtom);
 
   const candleData = data?.slice(0, 14).map((item) => {
     return {
@@ -44,7 +47,7 @@ function CandleChart({ coinId }: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "light"
+              mode: isLight ? "light" : "dark"
             },
             chart: {
               width: 500,
@@ -55,7 +58,7 @@ function CandleChart({ coinId }: ChartProps) {
               background: "transparent",
             },
             grid: {
-              borderColor: "#ddd",
+              borderColor: isLight ? "#ddd" : "#444",
               row: {
                 colors: undefined,
                 opacity: 0.3

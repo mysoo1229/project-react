@@ -1,6 +1,8 @@
 import ApexChart from "react-apexcharts";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
 import { fetchCoinHistory } from "../../api";
+import { isLightAtom } from "../../atoms";
 
 interface ICoinHistory {
   close: string;
@@ -13,6 +15,7 @@ interface IChart {
 
 function LineChart({coinId}: IChart) {
   const { isLoading, data } = useQuery<ICoinHistory[]>("coinHistory", () => fetchCoinHistory(coinId));
+  const isLight = useRecoilValue(isLightAtom);
 
   return (
     <>
@@ -29,7 +32,7 @@ function LineChart({coinId}: IChart) {
           ]}
           options={{
             theme: {
-              mode: "light"
+              mode: isLight ? "light" : "dark"
             },
             chart: {
               width: 500,
@@ -40,7 +43,7 @@ function LineChart({coinId}: IChart) {
               background: "transparent",
             },
             grid: {
-              borderColor: "#ddd",
+              borderColor: isLight ? "#ddd" : "#444",
               row: {
                 colors: undefined,
                 opacity: 0.3

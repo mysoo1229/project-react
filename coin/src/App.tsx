@@ -1,5 +1,8 @@
-import styled, { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { useRecoilValue } from "recoil";
+import { isLightAtom } from "./atoms";
+import { darkTheme, lightTheme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -68,13 +71,15 @@ const Container = styled.div`
 `;
 
 function App() {
+  const isLight = useRecoilValue(isLightAtom);
+
   return (
-    <div className="App">
+    <ThemeProvider theme={isLight ? lightTheme : darkTheme}>
       <GlobalStyle />
       <Container>
         <Router />
       </Container>
-    </div>
+    </ThemeProvider>
   );
 }
 
