@@ -2,6 +2,11 @@ import { useQuery } from "react-query";
 import { fetchCoinPrice } from "../../api";
 import styled from "styled-components";
 
+const Message = styled.div`
+  margin-top: 40px;
+  text-align: center;
+`;
+
 const PriceList = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -67,8 +72,8 @@ function Price({ coinId }: PriceProps) {
     <>
       {
         isLoading ? (
-          "Loading price..."
-        ) : (
+          <Message>Loading price...</Message>
+        ) : Array.isArray(data) ? (
           <PriceList>
             <PriceItem>
               <PriceType>Since<br />1 hour ago</PriceType>
@@ -95,6 +100,8 @@ function Price({ coinId }: PriceProps) {
               </PriceValue>
             </PriceItem>
           </PriceList>
+        ) : (
+          <Message>Sorry, the information is currently unavailable.</Message>
         )
       }
     </>

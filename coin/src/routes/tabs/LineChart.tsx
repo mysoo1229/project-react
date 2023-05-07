@@ -1,8 +1,14 @@
 import ApexChart from "react-apexcharts";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { fetchCoinHistory } from "../../api";
 import { isLightAtom } from "../../atoms";
+
+const Message = styled.div`
+  margin-top: 40px;
+  text-align: center;
+`;
 
 interface ICoinHistory {
   close: string;
@@ -17,11 +23,10 @@ function LineChart({coinId}: IChart) {
   const { isLoading, data } = useQuery<ICoinHistory[]>("coinHistory", () => fetchCoinHistory(coinId));
   const isLight = useRecoilValue(isLightAtom);
 
-  return (
-    <>
-      { isLoading ? (
-        "loading chart..."
-      ) : (
+  return (<>
+    { isLoading ? (
+        <Message>Loading chart...</Message>
+      ) : Array.isArray(data) ? (
         <ApexChart
           type="line"
           series={[
@@ -79,7 +84,10 @@ function LineChart({coinId}: IChart) {
             }
           }}
         />
-      )}
+      ) : (
+        <Message>Sorry, the information is currently unavailable.</Message>
+      )
+    }
     </>
   );
 }

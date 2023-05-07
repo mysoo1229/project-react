@@ -1,8 +1,14 @@
 import ApexChart from "react-apexcharts";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { fetchCoinHistory } from "../../api";
 import { isLightAtom } from "../../atoms";
+
+const Message = styled.div`
+  margin-top: 40px;
+  text-align: center;
+`;
 
 interface ICoinHistory {
   time_close: number;
@@ -10,6 +16,7 @@ interface ICoinHistory {
   high: string;
   low: string;
   close: string;
+  error?: string;
 }
 
 interface ChartProps {
@@ -17,32 +24,29 @@ interface ChartProps {
 }
 
 function CandleChart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<ICoinHistory[]>("coinHistory", () => fetchCoinHistory(coinId),);
+  const { isLoading, data } = useQuery<ICoinHistory[]>("coinHistory", () => fetchCoinHistory(coinId));
   const isLight = useRecoilValue(isLightAtom);
 
-  const candleData = data?.slice(0, 14).map((item) => {
-    return {
-      x: new Date(item.time_close * 1000).toUTCString(),
-      y:
-        [
-          parseFloat(item.open),
-          parseFloat(item.high),
-          parseFloat(item.low),
-          parseFloat(item.close),
-        ]
-    }
-  });
-
-  return <div>
-    {isLoading ?
-      (
-        "Loading chart..."
-      ) : (
+  return <>
+    {isLoading ? (
+        <Message>Loading chart...</Message>
+      ) : Array.isArray(data) ? (
         <ApexChart
           type="candlestick"
           series={[
             {
-              data: candleData ?? []
+              data: data?.slice(0, 14).map((item) => {
+                return {
+                  x: new Date(item.time_close * 1000).toUTCString(),
+                  y:
+                    [
+                      parseFloat(item.open),
+                      parseFloat(item.high),
+                      parseFloat(item.low),
+                      parseFloat(item.close),
+                    ]
+                }
+              })
             }
           ]}
           options={{
@@ -82,7 +86,7 @@ function CandleChart({ coinId }: ChartProps) {
               categories:
                 data?.slice(0, 14).map(item => 
                   new Date(item.time_close * 1000).toUTCString()
-                ) ?? [],
+                ),
               type: "datetime",
             },
             tooltip: {
@@ -92,9 +96,11 @@ function CandleChart({ coinId }: ChartProps) {
             }
           }}
         />
+      ) : (
+        <Message>Sorry, the information is currently unavailable.</Message>
       )
     }
-  </div>;
+  </>;
 }
 
 export default CandleChart;
