@@ -1,13 +1,11 @@
 {
   "files": {
-    "main.css": "/project-react/static/css/main.37433c7f.css",
-    "main.js": "/project-react/static/js/main.e5142004.js",
-    "index.html": "/project-react/index.html",
-    "main.37433c7f.css.map": "/project-react/static/css/main.37433c7f.css.map",
-    "main.e5142004.js.map": "/project-react/static/js/main.e5142004.js.map"
+    "main.js": "/project-react/coin/static/js/main.6bd47a86.js",
+    "static/media/icon-home.png": "/project-react/coin/static/media/icon-home.7c5703f089f4f7be771b.png",
+    "index.html": "/project-react/coin/index.html",
+    "main.6bd47a86.js.map": "/project-react/coin/static/js/main.6bd47a86.js.map"
   },
   "entrypoints": [
-    "static/css/main.37433c7f.css",
-    "static/js/main.e5142004.js"
+    "static/js/main.6bd47a86.js"
   ]
 }
