@@ -1,6 +1,8 @@
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import arrowDown from "../resources/arrow-down.png";
+import { toDoAtom } from "../atoms";
 import ToDoForm from "./ToDoForm";
+import ToDoItem from "./ToDoItem";
 
 const Container = styled.div`
   max-width: 460px;
@@ -25,6 +27,8 @@ const ResultList = styled.ul`
 `;
 
 function ToDoPage() {
+  const toDoArray = useRecoilValue(toDoAtom);
+
   return (
     <Container>
       <H1>TO DO LIST</H1>
@@ -32,6 +36,9 @@ function ToDoPage() {
         <ToDoForm />
       </InputWrap>
       <ResultList>
+        {toDoArray?.map((toDo) => (
+          <ToDoItem key={toDo.id} {...toDo} />
+        ))}
       </ResultList>
     </Container>
   );
