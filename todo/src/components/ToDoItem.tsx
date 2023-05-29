@@ -4,24 +4,36 @@ import styled from "styled-components";
 import { Categories, IToDo, toDoAtom } from "../atoms";
 
 const Item = styled.li`
-  display: flex;
-  gap: 16px;
   margin: 12px 0;
-  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+
+  span {
+    display: block;
+    padding-top: 10px;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #222;
+  }
 `;
 
 const ButtonWrap = styled.div`
-  width: 100px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
 
   button {
-    width: 48px;
-    padding: 3px 0;
+    padding: 3px 6px;
     border: none;
     border-radius: 4px;
     font-size: 12px;
 
     + button {
       margin-left: 4px;
+    }
+
+    &:disabled {
+      background: #ccc;
     }
   }
 `;
@@ -61,9 +73,21 @@ function ToDoItem({ id, text, category }: IToDo) {
   return (
     <Item>
       <ButtonWrap>
-        { category !== Categories.TO_DO && <ButtonToDo name={Categories.TO_DO} onClick={changeCategory}>To Do</ButtonToDo> }
-        { category !== Categories.DOING && <ButtonDoing name={Categories.DOING} onClick={changeCategory}>Doing</ButtonDoing> }
-        { category !== Categories.DONE && <ButtonDone name={Categories.DONE} onClick={changeCategory}>Done</ButtonDone> }
+        <ButtonToDo
+          name={Categories.TODO}
+          onClick={changeCategory}
+          disabled={category === Categories.TODO && true}
+        >To Do</ButtonToDo>
+        <ButtonDoing
+          name={Categories.DOING}
+          onClick={changeCategory}
+          disabled={category === Categories.DOING && true}
+        >Doing</ButtonDoing>
+        <ButtonDone
+          name={Categories.DONE}
+          onClick={changeCategory}
+          disabled={category === Categories.DONE && true}
+        >Done</ButtonDone>
       </ButtonWrap>
       <span>{text}</span>
     </Item>

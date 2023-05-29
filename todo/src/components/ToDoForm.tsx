@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { categoryAtom, toDoAtom } from "../atoms";
+import { Categories, categoryAtom, toDoAtom } from "../atoms";
 
 const Form = styled.form`
   flex: 1;
@@ -53,7 +53,12 @@ function ToDoForm() {
         {...register("toDoInput", {
           required: "Please write a to-do",
         })}
-        placeholder="What To Do?"
+        placeholder={
+          category === Categories.TODO ? "What TO DO?"
+          : category === Categories.DOING ? "What are you DOING?"
+          : category === Categories.DONE ? "What have you DONE?"
+          : ""
+        }
       />
       <AddButton>ADD</AddButton>
     </Form>

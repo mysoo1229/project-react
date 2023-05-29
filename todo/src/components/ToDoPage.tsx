@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Categories, categoryAtom, toDoAtom, toDoSelector } from "../atoms";
 import ToDoForm from "./ToDoForm";
 import ToDoItem from "./ToDoItem";
-import arrowDown from "../resources/arrow-down.png";
 import React from "react";
 
 const Container = styled.div`
@@ -18,48 +17,64 @@ const H1 = styled.div`
   letter-spacing: 3px;
 `;
 
-const InputWrap = styled.div`
+const TabWrap = styled.div`
   display: flex;
-  margin: 30px 0;
-  gap: 16px;
-`;
-
-const Select = styled.select`
-  flex-shrink: none;
-  position: relative;
-  width: 100px;
-  padding: 10px 30px 10px 12px;
-  border: none;
+  margin: 30px 0 12px;
+  padding: 2px;
   border-radius: 12px;
-  background: #fff url(${arrowDown}) no-repeat right 12px center / 14px auto;
-  appearance: none;
-  font-size: 15px;
-  color: #222;
+  background: #fff;
+
+  button {
+    flex: 1;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    font-size: 15px;
+    color: #999;
+
+    &:disabled {
+      background: ${(props) => props.theme.accentColor};
+      box-shadow: 0 0 7px 3px rgba(0, 0, 0, .15);
+      font-weight: bold;
+      color: #fff;
+    }
+  }
 `;
 
 const ResultList = styled.ul`
-  margin-top: 10px;
+  margin-top: 30px;
 `;
 
 function ToDoPage() {
   const toDoArray = useRecoilValue(toDoSelector);
   const [category, setCategory] = useRecoilState(categoryAtom);
 
-  const chooseCategory = (event: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(event.currentTarget.value as any);
+  const chooseCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setCategory(event.currentTarget.name as any);
   };
 
   return (
     <Container>
       <H1>TO DO LIST</H1>
-      <InputWrap>
-        <Select onInput={chooseCategory} value={category}>
-          <option value={Categories.TO_DO}>To Do</option>
-          <option value={Categories.DOING}>Doing</option>
-          <option value={Categories.DONE}>Done</option>
-        </Select>
-        <ToDoForm />
-      </InputWrap>
+      <TabWrap>
+        <button
+          onClick={chooseCategory}
+          name={Categories.TODO}
+          disabled={category === Categories.TODO && true}
+        >TO DO</button>
+        <button
+          onClick={chooseCategory}
+          name={Categories.DOING}
+          disabled={category === Categories.DOING && true}
+        >DOING</button>
+        <button
+          onClick={chooseCategory}
+          name={Categories.DONE}
+          disabled={category === Categories.DONE && true}
+        >DONE</button>
+      </TabWrap>
+      <ToDoForm />
       <ResultList>
         {toDoArray?.map((toDo) => (
           <ToDoItem key={toDo.id} {...toDo} />
