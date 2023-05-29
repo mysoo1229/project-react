@@ -2,6 +2,7 @@ import React from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { Categories, IToDo, toDoAtom } from "../atoms";
+import iconDelete from "../resources/icon-delete.png";
 
 const Item = styled.li`
   margin: 12px 0;
@@ -19,6 +20,8 @@ const Item = styled.li`
 `;
 
 const ButtonWrap = styled.div`
+  display: flex;
+  gap: 4px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
 
@@ -29,7 +32,6 @@ const ButtonWrap = styled.div`
     font-size: 12px;
 
     + button {
-      margin-left: 4px;
     }
 
     &:disabled {
@@ -48,6 +50,13 @@ const ButtonDoing = styled.button`
 
 const ButtonDone = styled.button`
   background: #3bb98b;
+`;
+
+const ButtonDelete = styled.button`
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  background: url(${iconDelete}) no-repeat center / 15px;
 `;
 
 function ToDoItem({ id, text, category }: IToDo) {
@@ -70,6 +79,12 @@ function ToDoItem({ id, text, category }: IToDo) {
     });
   };
 
+  const deleteTodo = () => {
+    setToDos((oldToDos) => {
+      return oldToDos.filter((toDo) => toDo.id !== id)
+    });
+  };
+
   return (
     <Item>
       <ButtonWrap>
@@ -88,6 +103,7 @@ function ToDoItem({ id, text, category }: IToDo) {
           onClick={changeCategory}
           disabled={category === Categories.DONE && true}
         >Done</ButtonDone>
+        <ButtonDelete onClick={deleteTodo} aria-label="delete" />
       </ButtonWrap>
       <span>{text}</span>
     </Item>
