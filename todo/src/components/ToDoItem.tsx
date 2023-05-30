@@ -1,7 +1,7 @@
 import React from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { Categories, IToDo, toDoAtom } from "../atoms";
+import { Categories, IToDo, toDoState } from "../atoms";
 import iconDelete from "../resources/icon-delete.png";
 
 const Item = styled.li`
@@ -60,7 +60,7 @@ const ButtonDelete = styled.button`
 `;
 
 function ToDoItem({ id, text, category }: IToDo) {
-  const setToDos = useSetRecoilState(toDoAtom);
+  const setToDos = useSetRecoilState(toDoState);
 
   const changeCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {

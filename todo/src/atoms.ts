@@ -12,7 +12,7 @@ export interface IToDo {
   category: Categories;
 };
 
-export const categoryAtom = atom<Categories>({
+export const categoryState = atom<Categories>({
   key: "category",
   default: Categories.TODO,
 });
@@ -22,7 +22,7 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const toDoAtom = atom<IToDo[]>({
+export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
   effects_UNSTABLE: [persistAtom],
@@ -31,8 +31,8 @@ export const toDoAtom = atom<IToDo[]>({
 export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
-    const toDoArray = get(toDoAtom);
-    const category = get(categoryAtom);
+    const toDoArray = get(toDoState);
+    const category = get(categoryState);
 
     return toDoArray.filter((toDo) => toDo.category === category);
   }

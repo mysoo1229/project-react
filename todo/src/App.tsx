@@ -1,5 +1,4 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { useRecoilValue } from "recoil";
 import { darkTheme } from "./theme";
 import ToDoPage from "./components/ToDoPage";
 

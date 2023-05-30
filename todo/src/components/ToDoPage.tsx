@@ -1,6 +1,6 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { Categories, categoryAtom, toDoAtom, toDoSelector } from "../atoms";
+import { Categories, categoryState, toDoSelector } from "../atoms";
 import ToDoForm from "./ToDoForm";
 import ToDoItem from "./ToDoItem";
 import React from "react";
@@ -48,7 +48,7 @@ const ResultList = styled.ul`
 
 function ToDoPage() {
   const toDoArray = useRecoilValue(toDoSelector);
-  const [category, setCategory] = useRecoilState(categoryAtom);
+  const [category, setCategory] = useRecoilState(categoryState);
 
   const chooseCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCategory(event.currentTarget.name as any);
