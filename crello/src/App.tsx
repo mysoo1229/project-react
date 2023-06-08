@@ -1,4 +1,8 @@
+import { DragDropContext } from "react-beautiful-dnd";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { cardState } from "./atoms";
+import Board from "./components/Board";
 
 const Header = styled.div`
   padding: 10px 20px 0;
@@ -11,71 +15,31 @@ const Container = styled.div`
   display: flex;
   gap: 16px;
   padding: 30px 20px;
-`;
-
-const Board = styled.div`
-  flex-shrink: 0;
-  min-width: 260px;
-  max-width: 300px;
-  padding: 12px 8px;
-  border-radius: 8px;
-  background-color: #ddd;
-`;
-
-const Title = styled.h2`
-  padding: 4px 4px;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-const Cards = styled.div`
-  display: flex;
-  margin-top: 10px;
-`;
-
-const Card = styled.div`
-  width: 100%;
-  padding: 16px 12px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-
-  p {
-    font-size: 15px;
-  }
+  align-items: flex-start;
 `;
 
 function App() {
+  const cardArray = useRecoilValue(cardState);
+  const onDragEnd = () => {
+
+  };
+
   return (
     <>
       <Header>
         <h1>Crello</h1>
       </Header>
-      <Container>
-        <Board>
-          <Title>Upcoming</Title>
-          <Cards>
-            <Card>
-              <p>Plan marketing campaign</p>
-            </Card>
-          </Cards>
-        </Board>
-        <Board>
-          <Title>Upcoming</Title>
-          <Cards>
-            <Card>
-              <p>Plan marketing campaign</p>
-            </Card>
-          </Cards>
-        </Board>
-        <Board>
-          <Title>Upcoming</Title>
-          <Cards>
-            <Card>
-              <p>Plan marketing campaign</p>
-            </Card>
-          </Cards>
-        </Board>
-      </Container>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Container>
+          {Object.keys(cardArray).map((boardName) => (
+            <Board
+              key={boardName}
+              boardName={boardName}
+              cardContent={cardArray[boardName]}
+            />
+          ))}
+        </Container>
+      </DragDropContext>
     </>
   );
 }
