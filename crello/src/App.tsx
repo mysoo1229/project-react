@@ -21,7 +21,40 @@ const Container = styled.div`
 function App() {
   const [cards, setCards] = useRecoilState(cardState);
 
-  const onDragEnd = () => {
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source } = result;
+
+    if (!destination) return;
+
+    if (destination?.droppableId === source.droppableId) {
+      setCards((orgCards) => {
+        const resultCards = [...orgCards[source.droppableId]];
+        const movingCard = resultCards[source.index];
+
+        resultCards.splice(source.index, 1);
+        resultCards.splice(destination?.index, 0, movingCard);
+
+        return {
+          ...orgCards,
+          [source.droppableId]: resultCards
+        };
+      });
+    } else {
+      setCards((orgCards) => {
+        const sourceCards = [...orgCards[source.droppableId]];
+        const destinationCards = [...orgCards[destination.droppableId]];
+        const movingCards = sourceCards[source.index];
+
+        sourceCards.splice(source.index, 1);
+        destinationCards.splice(destination?.index, 0, movingCards);
+
+        return {
+          ...orgCards,
+          [source.droppableId]: sourceCards,
+          [destination.droppableId]: destinationCards,
+        }
+      });
+    }
   };
 
   return (

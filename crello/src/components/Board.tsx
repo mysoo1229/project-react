@@ -42,9 +42,9 @@ function Board({ boardName, cardContent }: IBoardProps) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {cardContent?.map((card, index) => (
+            {cardContent.map((card, index) => (
               <Card
-                key={index}
+                key={card.id}
                 cardId={card.id}
                 cardText={card.text}
                 index={index}
