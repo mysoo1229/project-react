@@ -1,3 +1,5 @@
+import React from "react";
+import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 const CardWrap = styled.div`
@@ -14,14 +16,23 @@ const CardWrap = styled.div`
 interface ICard {
   cardId: number;
   cardText: string;
+  index: number;
 }
 
-function Card({ cardId, cardText }: ICard) {
+function Card({ cardId, cardText, index }: ICard) {
   return (
-    <CardWrap>
-      <p>{cardText}</p>
-    </CardWrap>
-  );
+    <Draggable draggableId={cardId + ""} index={index}>
+      {(provided) => (
+        <CardWrap
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          {cardText}
+        </CardWrap>
+      )}
+    </Draggable>
+  )
 }
 
-export default Card;
+export default React.memo(Card);

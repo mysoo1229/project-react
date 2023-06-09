@@ -1,5 +1,5 @@
-import { DragDropContext } from "react-beautiful-dnd";
-import { useRecoilValue } from "recoil";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { cardState } from "./atoms";
 import Board from "./components/Board";
@@ -19,9 +19,9 @@ const Container = styled.div`
 `;
 
 function App() {
-  const cardArray = useRecoilValue(cardState);
-  const onDragEnd = () => {
+  const [cards, setCards] = useRecoilState(cardState);
 
+  const onDragEnd = () => {
   };
 
   return (
@@ -31,11 +31,11 @@ function App() {
       </Header>
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
-          {Object.keys(cardArray).map((boardName) => (
+          {Object.keys(cards).map((boardName) => (
             <Board
               key={boardName}
               boardName={boardName}
-              cardContent={cardArray[boardName]}
+              cardContent={cards[boardName]}
             />
           ))}
         </Container>

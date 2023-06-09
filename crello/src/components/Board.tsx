@@ -1,3 +1,4 @@
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { ICardGeneral } from "../atoms";
 import Card from "./Card";
@@ -35,15 +36,24 @@ function Board({ boardName, cardContent }: IBoardProps) {
   return (
     <BoardWrap>
       <Title>{boardName}</Title>
-      <CardList>
-        {cardContent?.map((card, index) => (
-          <Card
-            key={index}
-            cardId={card.id}
-            cardText={card.text}
-          />
-        ))}
-      </CardList>
+      <Droppable droppableId={boardName}>
+        {(provided) => (
+          <CardList
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {cardContent?.map((card, index) => (
+              <Card
+                key={index}
+                cardId={card.id}
+                cardText={card.text}
+                index={index}
+              />
+            ))}
+            {provided.placeholder}
+          </CardList>
+        )}
+      </Droppable>
     </BoardWrap>
   )
 }
