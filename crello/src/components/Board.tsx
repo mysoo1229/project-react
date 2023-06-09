@@ -1,6 +1,8 @@
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { ICardGeneral } from "../atoms";
+import { cardState, ICardGeneral } from "../atoms";
 import Card from "./Card";
 
 const BoardWrap = styled.div`
@@ -9,7 +11,7 @@ const BoardWrap = styled.div`
   max-width: 300px;
   padding: 12px 8px;
   border-radius: 8px;
-  background-color: #ddd;
+  background-color: #eee;
 `;
 
 const Title = styled.h2`
@@ -23,8 +25,21 @@ const Title = styled.h2`
 const CardList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 10px;
+  margin-top: 16px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+
+  input {
+    width: 100%;
+    border: none;
+    padding: 16px 12px;
+    border-radius: 8px;
+    background-color: #cfcfcf;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, .03);
+    font-size: 15px;
+  }
 `;
 
 interface IBoardProps {
@@ -32,7 +47,33 @@ interface IBoardProps {
   cardContent: ICardGeneral[];
 }
 
+interface IFormProps {
+  cardInput: string;
+}
+
 function Board({ boardName, cardContent }: IBoardProps) {
+  const setCards = useSetRecoilState(cardState);
+  const { register, handleSubmit, setValue } = useForm<IFormProps>();
+
+  const checkValid = ({ cardInput }: IFormProps) => {
+    setCards((orgCards) => {
+      const newCard = {
+        id: Date.now(),
+        text: cardInput,
+      };
+
+      return {
+        ...orgCards,
+        [boardName]: [
+          ...orgCards[boardName],
+          newCard,
+        ],
+      }
+    });
+
+    setValue("cardInput", "");
+  };
+
   return (
     <BoardWrap>
       <Title>{boardName}</Title>
@@ -54,6 +95,13 @@ function Board({ boardName, cardContent }: IBoardProps) {
           </CardList>
         )}
       </Droppable>
+      <Form onSubmit={handleSubmit(checkValid)}>
+        <input
+          type="text"
+          placeholder="+ add a task"
+          {...register("cardInput")}
+        />
+      </Form>
     </BoardWrap>
   )
 }

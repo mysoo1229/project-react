@@ -4,9 +4,11 @@ import styled from "styled-components";
 
 const CardWrap = styled.div`
   width: 100%;
+  margin-bottom: 12px;
   padding: 16px 12px;
   border-radius: 8px;
-  background-color: #f5f5f5;
+  background-color: #fff;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, .03);
 
   p {
     font-size: 15px;
