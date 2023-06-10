@@ -9,27 +9,35 @@ const BoardWrap = styled.div`
   flex-shrink: 0;
   min-width: 260px;
   max-width: 300px;
-  padding: 12px 8px;
+  padding: 12px 4px;
   border-radius: 8px;
   background-color: #eee;
 `;
 
 const Title = styled.h2`
-  padding: 4px 4px;
+  padding: 4px 8px;
   font-size: 15px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
 `;
 
-const CardList = styled.div`
+interface ICardList {
+  $isDraggingOver: boolean;
+  $isDraggingFrom: boolean;
+}
+
+const CardList = styled.div<ICardList>`
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
+  padding: 12px 4px 0;
+  border-radius: 8px;
+  background: ${(props) => props.$isDraggingOver ? "#d6ecd3" : props.$isDraggingFrom ? "#eed2d2" : "none"};
 `;
 
 const Form = styled.form`
-  width: 100%;
+  width: calc(100% - 8px);
+  margin: 6px auto 0;
 
   input {
     width: 100%;
@@ -78,10 +86,12 @@ function Board({ boardName, cardContent }: IBoardProps) {
     <BoardWrap>
       <Title>{boardName}</Title>
       <Droppable droppableId={boardName}>
-        {(provided) => (
+        {(provided, snapshot) => (
           <CardList
             ref={provided.innerRef}
             {...provided.droppableProps}
+            $isDraggingOver={snapshot.isDraggingOver}
+            $isDraggingFrom={Boolean(snapshot.draggingFromThisWith)}
           >
             {cardContent.map((card, index) => (
               <Card
