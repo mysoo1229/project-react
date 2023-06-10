@@ -18,7 +18,7 @@ const { persistAtom } = recoilPersist({
 export const cardState = atom<ICardState>({
   key: "card",
   default: {
-    Upcoming: [{id: 1, text: "fenerbahce"}, {id: 2, text: "eczacibasi"}],
+    Upcoming: [],
     "In Progress": [],
     Done: [],
   },

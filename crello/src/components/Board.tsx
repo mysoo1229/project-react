@@ -99,6 +99,7 @@ function Board({ boardName, cardContent }: IBoardProps) {
                 cardId={card.id}
                 cardText={card.text}
                 index={index}
+                boardName={boardName}
               />
             ))}
             {provided.placeholder}

@@ -61,6 +61,10 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  button {
+    border: none;
+    outline: none;
+  }
 `;
 
 const root = ReactDOM.createRoot(

@@ -1,8 +1,11 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { cardState } from "../atoms";
 
 const CardWrap = styled.div`
+  display: flex;
   width: 100%;
   margin-bottom: 12px;
   padding: 16px 12px;
@@ -12,6 +15,35 @@ const CardWrap = styled.div`
 
   p {
     font-size: 15px;
+    line-height: 18px;
+  }
+
+  button {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    border-radius: 8px;
+    background: #e2e2e2;
+
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      width: 2px;
+      height: 10px;
+      background: #fff;
+    }
+
+    &::after {
+      transform: rotate(45deg);
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+    }
   }
 `;
 
@@ -19,9 +51,20 @@ interface ICard {
   cardId: number;
   cardText: string;
   index: number;
+  boardName: string;
 }
 
-function Card({ cardId, cardText, index }: ICard) {
+function Card({ cardId, cardText, index, boardName }: ICard) {
+  const setCards = useSetRecoilState(cardState);
+  const deleteCard = () => {
+    setCards((orgCards) => {
+      return {
+        ...orgCards,
+        [boardName]: orgCards[boardName].filter((card) => card.id !== cardId),
+      };
+    })
+  };
+
   return (
     <Draggable draggableId={cardId + ""} index={index}>
       {(provided) => (
@@ -30,7 +73,8 @@ function Card({ cardId, cardText, index }: ICard) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {cardText}
+          <p>{cardText}</p>
+          <button onClick={deleteCard} aria-label="delete"></button>
         </CardWrap>
       )}
     </Draggable>
