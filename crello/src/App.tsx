@@ -3,13 +3,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { cardState } from "./atoms";
 import Board from "./components/Board";
-
-const Header = styled.div`
-  padding: 10px 20px 0;
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-`;
+import Header from "./components/Header";
 
 const Container = styled.div`
   display: flex;
@@ -26,54 +20,62 @@ function App() {
 
     if (!destination) return;
 
-    if (destination?.droppableId === source.droppableId) {
+    if (destination.droppableId === "trash") {
       setCards((orgCards) => {
         const resultCards = [...orgCards[source.droppableId]];
-        const movingCard = resultCards[source.index];
-
         resultCards.splice(source.index, 1);
-        resultCards.splice(destination?.index, 0, movingCard);
 
         return {
           ...orgCards,
-          [source.droppableId]: resultCards
+          [source.droppableId]: resultCards,
         };
-      });
+      })
     } else {
-      setCards((orgCards) => {
-        const sourceCards = [...orgCards[source.droppableId]];
-        const destinationCards = [...orgCards[destination.droppableId]];
-        const movingCards = sourceCards[source.index];
+      if (destination?.droppableId === source.droppableId) {
+        setCards((orgCards) => {
+          const resultCards = [...orgCards[source.droppableId]];
+          const movingCard = resultCards[source.index];
 
-        sourceCards.splice(source.index, 1);
-        destinationCards.splice(destination?.index, 0, movingCards);
+          resultCards.splice(source.index, 1);
+          resultCards.splice(destination?.index, 0, movingCard);
 
-        return {
-          ...orgCards,
-          [source.droppableId]: sourceCards,
-          [destination.droppableId]: destinationCards,
-        }
-      });
+          return {
+            ...orgCards,
+            [source.droppableId]: resultCards
+          };
+        });
+      } else {
+        setCards((orgCards) => {
+          const sourceCards = [...orgCards[source.droppableId]];
+          const destinationCards = [...orgCards[destination.droppableId]];
+          const movingCards = sourceCards[source.index];
+
+          sourceCards.splice(source.index, 1);
+          destinationCards.splice(destination?.index, 0, movingCards);
+
+          return {
+            ...orgCards,
+            [source.droppableId]: sourceCards,
+            [destination.droppableId]: destinationCards,
+          }
+        });
+      }
     }
   };
 
   return (
-    <>
-      <Header>
-        <h1>Crello</h1>
-      </Header>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Container>
-          {Object.keys(cards).map((boardName) => (
-            <Board
-              key={boardName}
-              boardName={boardName}
-              cardContent={cards[boardName]}
-            />
-          ))}
-        </Container>
-      </DragDropContext>
-    </>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Header />
+      <Container>
+        {Object.keys(cards).map((boardName) => (
+          <Board
+            key={boardName}
+            boardName={boardName}
+            cardContent={cards[boardName]}
+          />
+        ))}
+      </Container>
+    </DragDropContext>
   );
 }
 
