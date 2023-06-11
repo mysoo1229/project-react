@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { cardState } from "../atoms";
+import { boardState } from "../atoms";
 
 const CardWrap = styled.div`
   display: flex;
@@ -55,14 +55,14 @@ interface ICard {
 }
 
 function Card({ cardId, cardText, index, boardName }: ICard) {
-  const setCards = useSetRecoilState(cardState);
+  const setBoards = useSetRecoilState(boardState);
   const deleteCard = () => {
-    setCards((orgCards) => {
+/*     setCards((orgCards) => {
       return {
         ...orgCards,
         [boardName]: orgCards[boardName].filter((card) => card.id !== cardId),
       };
-    })
+    }) */
   };
 
   return (

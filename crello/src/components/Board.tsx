@@ -1,8 +1,8 @@
-import { Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { cardState, ICardGeneral } from "../atoms";
+import { boardState, ICardGeneral } from "../atoms";
 import Card from "./Card";
 
 const BoardWrap = styled.div`
@@ -53,67 +53,87 @@ const Form = styled.form`
 interface IBoardProps {
   boardName: string;
   cardContent: ICardGeneral[];
+  index: number;
 }
 
 interface IFormProps {
   cardInput: string;
 }
 
-function Board({ boardName, cardContent }: IBoardProps) {
-  const setCards = useSetRecoilState(cardState);
+function Board({ boardName, cardContent, index }: IBoardProps) {
+  const setBoards = useSetRecoilState(boardState);
   const { register, handleSubmit, setValue } = useForm<IFormProps>();
 
   const checkValid = ({ cardInput }: IFormProps) => {
-    setCards((orgCards) => {
+    setBoards((orgBoards) => {
       const newCard = {
         id: Date.now(),
         text: cardInput,
       };
 
-      return {
-        ...orgCards,
-        [boardName]: [
-          ...orgCards[boardName],
-          newCard,
-        ],
+      const newBoard = {
+        name: orgBoards[index].name,
+        items: [...orgBoards[index].items, newCard],
       }
+
+      console.log(...orgBoards, [...orgBoards], newBoard);
+
+      // return {
+      //   ...orgCards,
+      //   [boardName]: [
+      //     ...orgCards[boardName],
+      //     newCard,
+      //   ],
+      // }
+
+      return [
+        ...orgBoards.slice(0, index),
+      ];
     });
 
     setValue("cardInput", "");
   };
 
   return (
-    <BoardWrap>
-      <Title>{boardName}</Title>
-      <Droppable droppableId={boardName}>
-        {(provided, snapshot) => (
-          <CardList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            $isDraggingOver={snapshot.isDraggingOver}
-            $isDraggingFrom={Boolean(snapshot.draggingFromThisWith)}
-          >
-            {cardContent.map((card, index) => (
-              <Card
-                key={card.id}
-                cardId={card.id}
-                cardText={card.text}
-                index={index}
-                boardName={boardName}
-              />
-            ))}
-            {provided.placeholder}
-          </CardList>
-        )}
-      </Droppable>
-      <Form onSubmit={handleSubmit(checkValid)}>
-        <input
-          type="text"
-          placeholder="+ add a task"
-          {...register("cardInput")}
-        />
-      </Form>
-    </BoardWrap>
+    <Draggable draggableId={boardName} index={index}>
+      {(provided) => (
+        <BoardWrap
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <Title>{boardName}</Title>
+          <Droppable droppableId={boardName}>
+            {(provided, snapshot) => (
+              <CardList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                $isDraggingOver={snapshot.isDraggingOver}
+                $isDraggingFrom={Boolean(snapshot.draggingFromThisWith)}
+              >
+                {cardContent.map((card, index) => (
+                  <Card
+                    key={card.id}
+                    cardId={card.id}
+                    cardText={card.text}
+                    index={index}
+                    boardName={boardName}
+                  />
+                ))}
+                {provided.placeholder}
+              </CardList>
+            )}
+          </Droppable>
+          <Form onSubmit={handleSubmit(checkValid)}>
+            <input
+              type="text"
+              placeholder="+ add a task"
+              {...register("cardInput")}
+            />
+          </Form>
+        </BoardWrap>
+      )}
+    </Draggable>
   )
 }
 

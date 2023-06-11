@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { cardState } from "./atoms";
+import { boardState } from "./atoms";
 import Board from "./components/Board";
 import Header from "./components/Header";
 
@@ -13,8 +13,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [boards, setBoards] = useRecoilState(cardState);
-  console.log(boards);
+  const [boards, setBoards] = useRecoilState(boardState);
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
@@ -31,7 +30,6 @@ function App() {
         resultBoards.splice(source.index, 1);
         resultBoards.splice(destination.index, 0, movingBoard);
 
-        console.log(orgBoards, movingBoard, resultBoards);
         return resultBoards;
       })
     } else {
