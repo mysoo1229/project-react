@@ -6,8 +6,9 @@ export interface ICardGeneral {
   text: string;
 };
 
-interface ICardState {
-  [key: string]: ICardGeneral[];
+interface IBoardState {
+  name: string;
+  items: [];
 };
 
 const { persistAtom } = recoilPersist({
@@ -15,12 +16,20 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const cardState = atom<ICardState>({
-  key: "card",
-  default: {
-    Upcoming: [],
-    "In Progress": [],
-    Done: [],
-  },
-  effects_UNSTABLE: [persistAtom],
+export const cardState = atom<IBoardState[]>({
+  key: "board",
+  default: [
+    {
+      name: "Upcoming",
+      items: [],
+    },
+    {
+      name: "In Progress",
+      items: [],
+    },
+    {
+      name: "Done",
+      items: [],
+    }
+  ],
 });
