@@ -66,6 +66,8 @@ function Board({ boardName, cardContent, index }: IBoardProps) {
 
   const checkValid = ({ cardInput }: IFormProps) => {
     setBoards((orgBoards) => {
+      const resultBoards = [...orgBoards];
+
       const newCard = {
         id: Date.now(),
         text: cardInput,
@@ -76,19 +78,10 @@ function Board({ boardName, cardContent, index }: IBoardProps) {
         items: [...orgBoards[index].items, newCard],
       }
 
-      console.log(...orgBoards, [...orgBoards], newBoard);
+      resultBoards.splice(index, 1);
+      resultBoards.splice(index, 0, newBoard);
 
-      // return {
-      //   ...orgCards,
-      //   [boardName]: [
-      //     ...orgCards[boardName],
-      //     newCard,
-      //   ],
-      // }
-
-      return [
-        ...orgBoards.slice(0, index),
-      ];
+      return resultBoards;
     });
 
     setValue("cardInput", "");
