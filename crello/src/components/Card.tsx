@@ -57,12 +57,14 @@ interface ICard {
 function Card({ cardId, cardText, index, boardName }: ICard) {
   const setBoards = useSetRecoilState(boardState);
   const deleteCard = () => {
-/*     setCards((orgCards) => {
-      return {
-        ...orgCards,
-        [boardName]: orgCards[boardName].filter((card) => card.id !== cardId),
-      };
-    }) */
+    setBoards((orgBoards) => {
+      const boardIndex = orgBoards.findIndex((board) => board.name === boardName);
+      const resultBoards = JSON.parse(JSON.stringify(orgBoards));
+
+      resultBoards[boardIndex].items.splice(index, 1);
+
+      return resultBoards;
+    })
   };
 
   return (
