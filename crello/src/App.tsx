@@ -33,17 +33,17 @@ function App() {
         return resultBoards;
       })
     } else {
-/*       if (destination.droppableId === "trash") {
-        setCards((orgCards) => {
-          const resultCards = [...orgCards[source.droppableId]];
-          resultCards.splice(source.index, 1);
+      if (destination.droppableId === "trash") {
+        setBoards((orgBoards) => {
+          const boardIndex = orgBoards.findIndex((board) => board.name === source.droppableId);
+          const resultBoards = JSON.parse(JSON.stringify(orgBoards));
 
-          return {
-            ...orgCards,
-            [source.droppableId]: resultCards,
-          };
+          resultBoards[boardIndex].items.splice(source.index, 1);
+
+          return resultBoards;
         })
-      } else {
+      }
+/*    else {
         if (destination?.droppableId === source.droppableId) {
           setCards((orgCards) => {
             const resultCards = [...orgCards[source.droppableId]];
