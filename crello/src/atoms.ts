@@ -21,10 +21,7 @@ export const boardState = atom<IBoardState[]>({
   default: [
     {
       name: "Upcoming",
-      items: [
-        {id: 1, text: "kimyk"},
-        {id: 2, text: "yaki"},
-      ],
+      items: [],
     },
     {
       name: "In Progress",
@@ -35,4 +32,5 @@ export const boardState = atom<IBoardState[]>({
       items: [],
     }
   ],
+  effects_UNSTABLE: [persistAtom],
 });

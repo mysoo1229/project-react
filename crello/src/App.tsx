@@ -43,39 +43,19 @@ function App() {
           return resultBoards;
         })
       }
-/*    else {
-        if (destination?.droppableId === source.droppableId) {
-          setCards((orgCards) => {
-            const resultCards = [...orgCards[source.droppableId]];
-            const movingCard = resultCards[source.index];
+      else {
+        setBoards((orgBoards) => {
+          const sourceBoard = orgBoards.findIndex((board) => board.name === source.droppableId);
+          const destinationBoard = orgBoards.findIndex((board) => board.name === destination.droppableId);
+          const resultBoards = JSON.parse(JSON.stringify(orgBoards));
+          const movingCard = resultBoards[sourceBoard].items[source.index];
 
-            console.log(resultCards[0]);
+          resultBoards[sourceBoard].items.splice(source.index, 1);
+          resultBoards[destinationBoard].items.splice(destination.index, 0, movingCard);
 
-            resultCards.splice(source.index, 1);
-            resultCards.splice(destination?.index, 0, movingCard);
-
-            return {
-              ...orgCards,
-              [source.droppableId]: resultCards
-            };
-          });
-        } else {
-          setCards((orgCards) => {
-            const sourceCards = [...orgCards[source.droppableId]];
-            const destinationCards = [...orgCards[destination.droppableId]];
-            const movingCards = sourceCards[source.index];
-
-            sourceCards.splice(source.index, 1);
-            destinationCards.splice(destination?.index, 0, movingCards);
-
-            return {
-              ...orgCards,
-              [source.droppableId]: sourceCards,
-              [destination.droppableId]: destinationCards,
-            }
-          });
-        }
-      } */
+          return resultBoards;
+        })
+      }
     }
   };
 
